@@ -1,4 +1,3 @@
-
 package Main;
 
 import Spring.Dao.Transaksi;
@@ -6,7 +5,9 @@ import SpringConfig.Konfigurasi;
 import SpringModel.TransaksiRepository;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 public class MainApp {
 
@@ -16,21 +17,35 @@ public class MainApp {
         ctx.refresh();
 
         Transaksi transaksi = ctx.getBean(Transaksi.class);
-        
-        //System.out.println(transaksi.simpanTransaksi(System.currentTimeMillis()));
-        
+
         TransaksiRepository repository = new TransaksiRepository();
-        
+
+//INSERT TABEL TRANSAKSI
         repository.setWaktu(new Timestamp(System.currentTimeMillis()));
-        //transaksi.simpanTransaksi(repository.getWaktu());
-        
+
+//INSERT TABEL DETAIL TRANSAKSI
         int idTrans = transaksi.simpanTransaksi(repository.getWaktu()).intValue();
         repository.setIdTransaksi(idTrans);
-        repository.setItem("Sepeda");
-        repository.setQty(2);
-        repository.setPrice(new BigDecimal (7000000));
+        repository.setItem("Motor");
+        repository.setQty(1);
+        repository.setPrice(new BigDecimal(21000000));
         transaksi.simpanDetails(repository.getIdTransaksi(), repository.getItem(), repository.getQty(), repository.getPrice());
-        //transaksi.simpanDetails(Integer.BYTES, item, Integer.SIZE, BigDecimal.ONE);
+        /*
+//SELECT TABEL TRANSAKSI
+        List<TransaksiRepository> listTransaksi = transaksi.findAll();
+        for (TransaksiRepository tampil : listTransaksi) {
+            System.out.println(repository.getIdTransaksi() + " " + repository.getWaktu());
+        }
+         */
+//UPDATE TABEL DETAILS TRANSAKSI
+        TransaksiRepository detailUpdate = transaksi.findById(3);
+        detailUpdate.setIdTransaksi(1);
+        detailUpdate.setItem("Laptop");
+        detailUpdate.setQty(1);
+        detailUpdate.setPrice(new BigDecimal(19000000));
+        System.out.println(transaksi.upDateDetails(detailUpdate));
+//DELETE TABEL TRANSAKSI DETAIL
+
     }
-    
+
 }
