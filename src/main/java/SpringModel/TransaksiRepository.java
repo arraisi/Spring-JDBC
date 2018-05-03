@@ -68,6 +68,11 @@ public class TransaksiRepository {
         this.price = price;
     }
 
+    @Override
+    public String toString() {
+        return "TransaksiRepository{" + "id=" + id + ", idTransaksi=" + idTransaksi + ", item=" + item + ", waktu=" + waktu + ", qty=" + qty + ", price=" + price + '}';
+    }
+
    
     
     
